@@ -1,0 +1,89 @@
+# Portfolio – Louison Feuvrais
+
+Site statique d'une page, sans build ni dépendance. On l'ouvre tel quel ou on le sert avec n'importe quel serveur HTTP.
+
+## Structure
+
+```
+index.html                 page unique (HTML, CSS et JS inline)
+favicon.svg                favicon principal
+favicon-32.png             favicon de repli (anciens navigateurs)
+apple-touch-icon.png       icône d'écran d'accueil iOS (180×180)
+og-image.png               aperçu des partages LinkedIn, Slack… (1200×630)
+assets/
+  fonts/                   Geist et Geist Mono variables + licence OFL
+  img/                     avatar et logos des écoles / entreprise
+  video/                   démo du portail (MP4) + image de couverture
+ressources/cv.pdf          CV lié par les boutons « Mon CV » et le dock
+```
+
+## Tester en local
+
+```bash
+python -m http.server 8000
+```
+
+Puis ouvrir http://localhost:8000. Passer par un serveur plutôt que double-cliquer sur le fichier : la vidéo et les polices se chargent plus fiablement.
+
+## Mise en ligne sur GitHub Pages
+
+Le code est dans le dépôt privé `LouisonFvrs/portfolio-2026`, branche `main`. La mise en ligne attend que les vidéos des projets soient prêtes.
+
+1. **Terminer les vidéos** de Stash, Gestion des congés et IA d'analyse de badminton (voir « Mettre à jour le contenu »).
+2. **Faire valider la vidéo du Portail** par Etix Everywhere : passer le dépôt en public la rend visible par tous.
+3. **Passer le dépôt en public** (GitHub Pages gratuit l'exige) :
+   ```bash
+   gh repo edit LouisonFvrs/portfolio-2026 --visibility public --accept-visibility-change-consequences
+   ```
+4. **Activer Pages** dans *Settings → Pages* :
+   - Source : *Deploy from a branch*
+   - Branche : `main`, dossier `/ (root)`
+5. Attendre 1 à 2 minutes. L'onglet **Actions** montre le déploiement *pages build and deployment*.
+6. Ouvrir `https://louisonfvrs.github.io/portfolio-2026/` et vérifier les accents, la vidéo, le CV et le thème sombre.
+
+L'ancien site `LouisonFvrs/Portfolio` reste en ligne tant qu'on ne le désactive pas. Une fois le nouveau validé, on peut le désactiver ou y mettre une redirection.
+
+## Passer sur le domaine louison-feuvrais.fr (optionnel)
+
+1. **Chez le registrar** (OVH, Gandi…), dans la zone DNS du domaine :
+   | Type | Nom | Valeur |
+   |---|---|---|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | CNAME | `www` | `louisonfvrs.github.io.` |
+
+   Supprimer les anciens enregistrements A ou AAAA de `@` qui pointeraient ailleurs.
+2. **Sur GitHub**, dans Settings → Pages → *Custom domain*, saisir `louison-feuvrais.fr` puis *Save*. GitHub ajoute alors un fichier `CNAME` au dépôt.
+3. Une fois le DNS propagé (quelques minutes à 24 h), cocher **Enforce HTTPS**.
+4. **Mettre à jour les URL absolues** en haut de `index.html` : remplacer `https://louisonfvrs.github.io/portfolio-2026/` par `https://louison-feuvrais.fr/` dans
+   - `<link rel="canonical">`
+   - `og:url`
+   - `og:image`
+
+5. Recommandé : ajouter le domaine dans les réglages du compte GitHub (*Settings → Pages → Verified domains*), pour éviter qu'un autre compte puisse le revendiquer.
+
+## Après la mise en ligne
+
+- **Aperçu LinkedIn** : coller l'URL dans le [Post Inspector](https://www.linkedin.com/post-inspector/) pour vérifier l'image et forcer LinkedIn à rafraîchir son cache.
+- **Confidentialité** : faire valider la vidéo et la description du Portail client par Etix Everywhere avant de diffuser le lien.
+
+## Mettre à jour le contenu
+
+| Quoi | Où |
+|---|---|
+| Ajouter une vidéo de projet | Déposer `assets/video/<projet>.mp4`, puis remplacer `<span>…gif</span>` dans le `<figure class="media">` de la carte par une balise `<video … autoplay muted loop playsinline>` sur le modèle du Portail |
+| Liens dépôt / démo | Bloc `.links` de chaque projet (un commentaire HTML le signale) |
+| Changer le CV | Remplacer `ressources/cv.pdf` en gardant le même nom |
+
+Convertir un GIF en MP4 léger avec ffmpeg :
+
+```bash
+ffmpeg -i demo.gif -movflags +faststart -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2,fps=25" -an assets/video/demo.mp4
+ffmpeg -i demo.gif -frames:v 1 -q:v 4 assets/video/demo.jpg
+```
+
+## Licences
+
+Polices Geist et Geist Mono © Vercel, sous SIL Open Font License 1.1 (voir `assets/fonts/LICENSE.txt`).
