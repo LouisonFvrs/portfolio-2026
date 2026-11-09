@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>CV – Louison Feuvrais</title>
+<meta name="author" content="Louison Feuvrais">
+<!-- Source of ressources/cv.pdf: edit here, then export (see README) -->
+<style>
+@page { size: A4; margin: 0; }
+:root {
+  --title: #1a1a2e; --text: #222; --muted: #555; --meta: #888;
+  --blue: #0e75b6; --rule: #ddd;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #d9d9d9; }
+body {
+  width: 210mm; min-height: 297mm; margin: 0 auto; padding: 12mm 19mm 9mm;
+  background: #fff; color: var(--text);
+  font: 9.3pt/1.38 Helvetica, Arial, sans-serif;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+a { color: var(--blue); }
+
+header { padding-bottom: 3.5mm; border-bottom: .75pt solid var(--rule); }
+h1 { font-size: 22pt; line-height: 1.1; font-weight: 700; color: var(--title); }
+.role { font-size: 12pt; color: var(--blue); margin-top: 1.5mm; }
+.contact { font-size: 9pt; color: var(--muted); margin-top: 2mm; line-height: 1.6; }
+.sep { margin: 0 2mm; }
+
+section { margin-top: 3.4mm; }
+h2 {
+  font-size: 11.5pt; font-weight: 700; color: var(--title); text-transform: uppercase;
+  padding-bottom: 1.2mm; border-bottom: 1.1pt solid var(--blue); margin-bottom: 1.9mm;
+}
+.item { break-inside: avoid; }
+.item + .item { margin-top: 1.8mm; }
+h3 { font-size: 10.5pt; font-weight: 700; color: var(--title); }
+.meta { font-size: 9pt; font-style: italic; color: var(--meta); margin-top: .4mm; }
+ul { margin-top: .8mm; padding-left: 7mm; }
+li { margin-top: .4mm; }
+p + ul { margin-top: 1mm; }
+
+ul.projects { margin-top: 0; }
+ul.projects li + li { margin-top: 1.4mm; }
+ul.projects strong { color: var(--title); }
+.tech { color: var(--muted); }
+.status { font-style: italic; color: var(--meta); }
+
+.skills { display: grid; grid-template-columns: 38mm 1fr; row-gap: .8mm; }
+.skills dt { font-weight: 700; color: var(--title); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Louison Feuvrais</h1>
+  <p class="role">Concepteur développeur d'applications</p>
+  <p class="contact">
+    Nantes, France<span class="sep">|</span><a href="mailto:contact@louisonfeuvrais.fr">contact@louisonfeuvrais.fr</a><br>
+    <a href="https://www.linkedin.com/in/louison-feuvrais-69241a232/">LinkedIn</a><span class="sep">|</span><a href="https://louisonfeuvrais.fr/">Portfolio</a>
+  </p>
+</header>
+
+<section>
+  <h2>Profil</h2>
+  <p>Étudiant en alternance chez Etix Everywhere depuis janvier 2026 (titre Concepteur Développeur d'Applications, ENI), spécialisé sur les stacks <strong>Java / Spring Boot</strong> et <strong>Angular</strong>. J'interviens de la spécification au déploiement : modélisation des données, API REST, interfaces, tests et CI/CD.</p>
+</section>
+
+<section>
+  <h2>Expérience professionnelle</h2>
+  <div class="item">
+    <h3>Développeur en alternance — Etix Everywhere, opérateur de data centers</h3>
+    <p class="meta">Depuis janvier 2026&nbsp;&nbsp;|&nbsp;&nbsp;Nantes, France</p>
+    <ul>
+      <li>Conception et développement d'un portail clients interne dont l'objectif est de centraliser les données clients, jusque-là dispersées entre plusieurs outils, et de gérer les accès des utilisateurs</li>
+      <li>Contrôle qualité : détection des données incomplètes ou incohérentes pour correction à la source</li>
+      <li>API REST Spring Boot et front Angular, Spring Security, PostgreSQL et Liquibase, Docker Compose</li>
+      <li>Mise en place de pipelines CI/CD et de tests automatisés, participation à la gestion de projet</li>
+      <li>Application en production interne : les équipes disposent d'un point d'accès unique aux données clients</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Formation</h2>
+  <div class="item">
+    <h3>Expert en Architecture et Développement Logiciel (Bac+5)</h3>
+    <p class="meta">ENI Nantes&nbsp;&nbsp;|&nbsp;&nbsp;2027 – 2029</p>
+  </div>
+  <div class="item">
+    <h3>Concepteur Développeur d'Applications</h3>
+    <p class="meta">ENI Nantes&nbsp;&nbsp;|&nbsp;&nbsp;2026 – 2027&nbsp;&nbsp;|&nbsp;&nbsp;en alternance chez Etix Everywhere</p>
+  </div>
+  <div class="item">
+    <h3>Cycle ingénieur</h3>
+    <p class="meta">ESEO, Angers&nbsp;&nbsp;|&nbsp;&nbsp;2024 – 2025</p>
+  </div>
+  <div class="item">
+    <h3>BTS SIO, option SLAM (Solutions Logicielles et Applications Métiers)</h3>
+    <p class="meta">Lycée Chevrollier, Angers&nbsp;&nbsp;|&nbsp;&nbsp;2022 – 2024</p>
+  </div>
+</section>
+
+<section>
+  <h2>Projets</h2>
+  <ul class="projects">
+    <li><strong>Stash</strong> <span class="status">(en développement)</span> — application de veille pour enregistrer, étiqueter et retrouver articles, vidéos, dépôts et vulnérabilités de sécurité <span class="tech">(Spring Boot, MongoDB, Angular, PrimeNG, Docker)</span></li>
+    <li><strong>Gestion des congés</strong> <span class="status">(en développement)</span> — les salariés posent leurs demandes en ligne, les managers les valident, la RH suit l'ensemble au même endroit <span class="tech">(Spring Boot, PostgreSQL, Angular, Vitest)</span></li>
+    <li><strong>Gestion de salle privatisée — Mairie</strong> <span class="status">(en développement)</span> — application sécurisée de réservation de salle <span class="tech">(Spring Boot, Angular)</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Compétences techniques</h2>
+  <dl class="skills">
+    <dt>Langages &amp; Backend</dt><dd>Java, Spring Boot, Spring Security, Laravel, PHP, SQL</dd>
+    <dt>Frontend</dt><dd>Angular, TypeScript, PrimeNG, Tailwind CSS</dd>
+    <dt>Bases de données</dt><dd>PostgreSQL, MongoDB, Liquibase</dd>
+    <dt>DevOps &amp; Outils</dt><dd>Docker, Docker Compose, Git, GitHub Actions, CI/CD, tests automatisés, Figma</dd>
+    <dt>IA</dt><dd>Claude Code, agents IA, MCP, prompt engineering</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Langues</h2>
+  <dl class="skills">
+    <dt>Français</dt><dd>Langue maternelle</dd>
+    <dt>Anglais</dt><dd>Niveau professionnel</dd>
+  </dl>
+</section>
+
+</body>
+</html>

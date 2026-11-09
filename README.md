@@ -15,7 +15,8 @@ assets/
   fonts/                   Geist et Geist Mono variables + licence OFL
   img/                     avatar et logos des écoles / entreprise
   video/                   démo du portail (MP4) + image de couverture
-ressources/cv.pdf          CV lié par les boutons « Mon CV » et le dock
+ressources/cv.pdf          CV lié par les boutons « Mon CV » et le dock (généré depuis cv/cv.html)
+cv/cv.html                 source du CV, au format A4
 ```
 
 ## Tester en local
@@ -28,19 +29,9 @@ Puis ouvrir http://localhost:8000. Passer par un serveur plutôt que double-cliq
 
 ## Mise en ligne sur GitHub Pages
 
-Le code est dans le dépôt privé `LouisonFvrs/portfolio-2026`, branche `main`. La mise en ligne attend que les vidéos des projets soient prêtes.
+Le site est publié depuis le dépôt public `LouisonFvrs/portfolio-2026`, branche `main`, dossier racine, sur `https://louisonfeuvrais.fr/` (HTTPS forcé).
 
-1. **Terminer les vidéos** de Stash, Gestion des congés et IA d'analyse de badminton (voir « Mettre à jour le contenu »).
-2. **Faire valider la vidéo du Portail** par Etix Everywhere : passer le dépôt en public la rend visible par tous.
-3. **Passer le dépôt en public** (GitHub Pages gratuit l'exige) :
-   ```bash
-   gh repo edit LouisonFvrs/portfolio-2026 --visibility public --accept-visibility-change-consequences
-   ```
-4. **Activer Pages** dans *Settings → Pages* :
-   - Source : *Deploy from a branch*
-   - Branche : `main`, dossier `/ (root)`
-5. Attendre 1 à 2 minutes. L'onglet **Actions** montre le déploiement *pages build and deployment*.
-6. Ouvrir `https://louisonfeuvrais.fr/` et vérifier les accents, la vidéo, le CV et le thème sombre.
+Chaque `git push` sur `main` redéploie le site en 1 à 2 minutes ; l'onglet **Actions** montre le déploiement *pages build and deployment*.
 
 L'ancien site `LouisonFvrs/Portfolio` reste en ligne tant qu'on ne le désactive pas. Une fois le nouveau validé, on peut le désactiver ou y mettre une redirection.
 
@@ -77,7 +68,15 @@ Le domaine est enregistré chez OVHcloud. Le fichier `CNAME` du dépôt le décl
 |---|---|
 | Ajouter une vidéo de projet | Déposer `assets/video/<projet>.mp4`, puis remplacer `<span>…gif</span>` dans le `<figure class="media">` de la carte par une balise `<video … autoplay muted loop playsinline>` sur le modèle du Portail |
 | Liens dépôt / démo | Bloc `.links` de chaque projet (un commentaire HTML le signale) |
-| Changer le CV | Remplacer `ressources/cv.pdf` en gardant le même nom |
+| Changer le CV | Modifier `cv/cv.html`, puis régénérer `ressources/cv.pdf` (voir ci-dessous) |
+
+Régénérer le CV en PDF (serveur local lancé à la racine, comme dans « Tester en local ») :
+
+```bash
+"/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --no-pdf-header-footer --virtual-time-budget=5000 --print-to-pdf="ressources/cv.pdf" http://localhost:8000/cv/cv.html
+```
+
+Vérifier que le PDF tient sur une seule page. Le numéro de téléphone n'est volontairement pas dans cette version publique.
 
 Convertir un GIF en MP4 léger avec ffmpeg :
 
