@@ -11,6 +11,7 @@ favicon-32.png             favicon de repli (anciens navigateurs)
 apple-touch-icon.png       icône d'écran d'accueil iOS (180×180)
 og-image.png               aperçu des partages LinkedIn, Slack… (1200×630)
 CNAME                      domaine personnalisé déclaré à GitHub Pages
+robots.txt, sitemap.xml    indications pour les moteurs de recherche (Google Search Console)
 assets/
   fonts/                   Geist et Geist Mono variables + licence OFL
   img/                     avatar et logos des écoles / entreprise
@@ -59,6 +60,7 @@ Le domaine est enregistré chez OVHcloud. Le fichier `CNAME` du dépôt le décl
 
 ## Après la mise en ligne
 
+- **Référencement** : propriété `louisonfeuvrais.fr` validée dans Google Search Console (enregistrement TXT `google-site-verification` à garder dans la zone DNS OVH). Mettre à jour `<lastmod>` dans `sitemap.xml` après un changement important.
 - **Aperçu LinkedIn** : coller l'URL dans le [Post Inspector](https://www.linkedin.com/post-inspector/) pour vérifier l'image et forcer LinkedIn à rafraîchir son cache.
 - **Confidentialité** : faire valider la vidéo et la description du Portail client par Etix Everywhere avant de diffuser le lien.
 
