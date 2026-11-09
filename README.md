@@ -10,6 +10,7 @@ favicon.svg                favicon principal
 favicon-32.png             favicon de repli (anciens navigateurs)
 apple-touch-icon.png       icône d'écran d'accueil iOS (180×180)
 og-image.png               aperçu des partages LinkedIn, Slack… (1200×630)
+CNAME                      domaine personnalisé déclaré à GitHub Pages
 assets/
   fonts/                   Geist et Geist Mono variables + licence OFL
   img/                     avatar et logos des écoles / entreprise
@@ -39,30 +40,31 @@ Le code est dans le dépôt privé `LouisonFvrs/portfolio-2026`, branche `main`.
    - Source : *Deploy from a branch*
    - Branche : `main`, dossier `/ (root)`
 5. Attendre 1 à 2 minutes. L'onglet **Actions** montre le déploiement *pages build and deployment*.
-6. Ouvrir `https://louisonfvrs.github.io/portfolio-2026/` et vérifier les accents, la vidéo, le CV et le thème sombre.
+6. Ouvrir `https://louisonfeuvrais.fr/` et vérifier les accents, la vidéo, le CV et le thème sombre.
 
 L'ancien site `LouisonFvrs/Portfolio` reste en ligne tant qu'on ne le désactive pas. Une fois le nouveau validé, on peut le désactiver ou y mettre une redirection.
 
-## Passer sur le domaine louison-feuvrais.fr (optionnel)
+## Domaine louisonfeuvrais.fr
 
-1. **Chez le registrar** (OVH, Gandi…), dans la zone DNS du domaine :
-   | Type | Nom | Valeur |
+Le domaine est enregistré chez OVHcloud. Le fichier `CNAME` du dépôt le déclare déjà à GitHub Pages, et les URL absolues de `index.html` (`canonical`, `og:url`, `og:image`) pointent dessus.
+
+1. **Dans l'espace client OVH**, *Web Cloud → Noms de domaine → louisonfeuvrais.fr → Zone DNS* :
+   - supprimer les enregistrements **A** et **AAAA** de `louisonfeuvrais.fr.` créés par défaut, ainsi que le **CNAME** de `www` s'il existe ;
+   - ne pas toucher aux enregistrements **MX**, **SPF** et **SRV** (e-mail Zimbra) ;
+   - ajouter :
+
+   | Type | Sous-domaine | Cible |
    |---|---|---|
-   | A | `@` | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
+   | A | *(vide)* | `185.199.108.153` |
+   | A | *(vide)* | `185.199.109.153` |
+   | A | *(vide)* | `185.199.110.153` |
+   | A | *(vide)* | `185.199.111.153` |
    | CNAME | `www` | `louisonfvrs.github.io.` |
 
-   Supprimer les anciens enregistrements A ou AAAA de `@` qui pointeraient ailleurs.
-2. **Sur GitHub**, dans Settings → Pages → *Custom domain*, saisir `louison-feuvrais.fr` puis *Save*. GitHub ajoute alors un fichier `CNAME` au dépôt.
+2. **Sur GitHub**, *Settings → Pages → Custom domain* : vérifier que `louisonfeuvrais.fr` est bien repris depuis le fichier `CNAME`, sinon le saisir et *Save*.
 3. Une fois le DNS propagé (quelques minutes à 24 h), cocher **Enforce HTTPS**.
-4. **Mettre à jour les URL absolues** en haut de `index.html` : remplacer `https://louisonfvrs.github.io/portfolio-2026/` par `https://louison-feuvrais.fr/` dans
-   - `<link rel="canonical">`
-   - `og:url`
-   - `og:image`
-
-5. Recommandé : ajouter le domaine dans les réglages du compte GitHub (*Settings → Pages → Verified domains*), pour éviter qu'un autre compte puisse le revendiquer.
+4. Recommandé : ajouter le domaine dans les réglages du compte GitHub (*Settings → Pages → Verified domains*), pour éviter qu'un autre compte puisse le revendiquer.
+5. Dans OVH, vérifier que le **renouvellement automatique** est actif et qu'un moyen de paiement valide est enregistré (renouvellement : 7,79 € HT par an).
 
 ## Après la mise en ligne
 
