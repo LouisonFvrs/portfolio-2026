@@ -7,7 +7,7 @@ Site statique d'une page, sans build ni dépendance. On l'ouvre tel quel ou on l
 ```
 index.html                 page unique (HTML, CSS et JS inline)
 favicon.svg                favicon principal
-favicon-32.png             favicon de repli (anciens navigateurs)
+favicon.ico, favicon-192.png  icônes matricielles (onglets, résultats Google)
 apple-touch-icon.png       icône d'écran d'accueil iOS (180×180)
 og-image.png               aperçu des partages LinkedIn, Slack… (1200×630)
 CNAME                      domaine personnalisé déclaré à GitHub Pages
