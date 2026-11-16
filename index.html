@@ -18,8 +18,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Louison Feuvrais, concepteur développeur d'applications">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#f5f1ea" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#070d16" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f4fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1020" media="(prefers-color-scheme: dark)">
 <!-- Google search results need a raster icon of at least 48x48: the ICO and the 192 px PNG cover it -->
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
@@ -93,40 +93,59 @@
 @font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url("assets/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 /* Layout: sticky profile column on the left, scrolling timeline on the right, floating dock at the bottom. */
-/* Light: warm paper and terracotta. Dark: glacial navy and ice blue. */
+/* Frosted glass over raspberry and blue glows: pale blue paper in light, navy in dark. */
 :root {
-  --bg: #f5f1ea;
-  --surface: #fbf9f5;
-  --ink: #2a2520;
-  --muted: #75695d;
-  --faint: #ad9f90;
-  --line: #e4dccf;
-  --accent: #c15f3c;
-  --accent-soft: #f3e3d8;
-  --ok: #5f8a4a;
-  --warn: #d0892c;
-  --glow: rgb(217 119 87 / .10);
+  --bg: #f3f4fa;
+  --surface: rgb(255 255 255 / .62);
+  --ink: #141a33;
+  --muted: #5a617e;
+  --faint: #a0a6bf;
+  --line: rgb(20 26 51 / .09);
+  --accent: #b0234f;
+  --accent-soft: #f7dfe8;
+  --ok: #3f7d4f;
+  --warn: #b0661b;
+  --glow: rgb(176 35 79 / .10);
+  --wash:
+    radial-gradient(640px 460px at 88% 12%, rgb(255 111 158 / .20), transparent 70%),
+    radial-gradient(620px 460px at 4% 82%, rgb(86 110 255 / .10), transparent 70%),
+    radial-gradient(520px 420px at 55% 105%, rgb(255 111 158 / .12), transparent 70%);
+  --frost: blur(18px) saturate(140%);
+  --sheet-bg: rgb(255 255 255 / .82);
   --sans: "Geist", "Segoe UI", system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #070d16; --surface: #0d1724; --ink: #e6f2fa; --muted: #8aa3b8; --faint: #4d6479;
-    --line: #18273a; --accent: #8fdcff; --accent-soft: #0f2638; --ok: #6fe3d0; --warn: #b9c8ff;
-    --glow: rgb(120 200 255 / .10); color-scheme: dark;
+    --bg: #0d1020; --surface: rgb(22 28 50 / .52); --ink: #eef0f8; --muted: #a6aecb; --faint: #5e6683;
+    --line: rgb(255 255 255 / .09); --accent: #ff6f9e; --accent-soft: rgb(255 111 158 / .16); --ok: #6fd39a; --warn: #f0b46a;
+    --glow: rgb(255 111 158 / .10); color-scheme: dark;
+    --wash:
+      radial-gradient(640px 460px at 88% 12%, rgb(255 111 158 / .30), transparent 70%),
+      radial-gradient(620px 460px at 4% 82%, rgb(86 110 255 / .13), transparent 70%),
+      radial-gradient(520px 420px at 55% 105%, rgb(255 111 158 / .16), transparent 70%);
+    --frost: blur(18px) saturate(150%);
+    --sheet-bg: rgb(18 24 44 / .72);
   }
 }
 :root[data-theme="dark"] {
-  --bg: #070d16; --surface: #0d1724; --ink: #e6f2fa; --muted: #8aa3b8; --faint: #4d6479;
-  --line: #18273a; --accent: #8fdcff; --accent-soft: #0f2638; --ok: #6fe3d0; --warn: #b9c8ff;
-  --glow: rgb(120 200 255 / .10); color-scheme: dark;
+  --bg: #0d1020; --surface: rgb(22 28 50 / .52); --ink: #eef0f8; --muted: #a6aecb; --faint: #5e6683;
+  --line: rgb(255 255 255 / .09); --accent: #ff6f9e; --accent-soft: rgb(255 111 158 / .16); --ok: #6fd39a; --warn: #f0b46a;
+  --glow: rgb(255 111 158 / .10); color-scheme: dark;
+  --wash:
+    radial-gradient(640px 460px at 88% 12%, rgb(255 111 158 / .30), transparent 70%),
+    radial-gradient(620px 460px at 4% 82%, rgb(86 110 255 / .13), transparent 70%),
+    radial-gradient(520px 420px at 55% 105%, rgb(255 111 158 / .16), transparent 70%);
+  --frost: blur(18px) saturate(150%);
+  --sheet-bg: rgb(18 24 44 / .72);
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
-  background: radial-gradient(900px 520px at 85% -10%, var(--glow), transparent 70%) no-repeat, var(--bg);
+  background: var(--wash, radial-gradient(900px 520px at 85% -10%, var(--glow), transparent 70%)) no-repeat, var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--sans); font-size: 15px; line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -140,9 +159,14 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .mono { font-family: var(--mono); }
 
-/* Backdrop: a drifting constellation in the theme's accent color */
-.backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.backdrop canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* Backdrop: a dotted grid in the theme's accent color, fading towards the bottom */
+.backdrop {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, transparent) 1px, transparent 1.6px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 130% 95% at 50% 0%, #000 40%, transparent 88%);
+  mask-image: radial-gradient(ellipse 130% 95% at 50% 0%, #000 40%, transparent 88%);
+}
 .page, footer { position: relative; z-index: 1; }
 
 .page {
@@ -246,6 +270,7 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  backdrop-filter: var(--frost, none); -webkit-backdrop-filter: var(--frost, none);
   min-width: 0; overflow: hidden;
   transition: border-color .2s, transform .2s;
 }
@@ -293,8 +318,9 @@ section > h2 { font-size: 22px; font-weight: 600; }
 html:has(.sheet[open]) { overflow: hidden; }
 .sheet {
   width: min(640px, calc(100% - 32px)); max-height: min(86vh, 860px); padding: 0;
-  background: var(--surface); color: var(--ink);
+  background: var(--sheet-bg, var(--surface)); color: var(--ink);
   border: 1px solid var(--line); border-radius: 18px;
+  backdrop-filter: var(--frost, none); -webkit-backdrop-filter: var(--frost, none);
   box-shadow: 0 24px 80px -24px rgb(0 0 0 / .35);
 }
 .sheet[open] { animation: sheetin .35s cubic-bezier(.2,.7,.2,1); }
@@ -314,6 +340,8 @@ html:has(.sheet[open]) { overflow: hidden; }
 .sheet ul.points { margin: 0; padding-left: 18px; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
 .tags li { font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.tags li:has(svg) { display: inline-flex; align-items: center; gap: 6px; padding-left: 7px; }
+.tags li svg { width: 13px; height: 13px; fill: currentColor; color: var(--ink); flex: none; }
 .tags.plain li { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 
 /* Skills */
@@ -326,6 +354,7 @@ html:has(.sheet[open]) { overflow: hidden; }
   font-size: 13px; padding: 5px 11px 5px 8px; background: var(--surface);
   transition: border-color .2s, transform .2s;
 }
+.tags.logos li, .copy { backdrop-filter: var(--frost, none); -webkit-backdrop-filter: var(--frost, none); }
 .tags.logos li:hover { border-color: var(--faint); transform: translateY(-1px); }
 .tags.logos svg { width: 15px; height: 15px; fill: currentColor; color: var(--ink); flex: none; }
 
@@ -339,7 +368,7 @@ html:has(.sheet[open]) { overflow: hidden; }
   transition: transform .2s;
 }
 .btn:hover { transform: translateY(-1px); }
-.btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 10px 17px; }
+.btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 10px 17px; backdrop-filter: var(--frost, none); -webkit-backdrop-filter: var(--frost, none); }
 .btn.ghost:hover { border-color: var(--faint); }
 .repo { align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
 .repo:hover { color: var(--ink); border-color: var(--line); }
@@ -425,10 +454,10 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
 </head>
 <body>
 
-<div class="backdrop" aria-hidden="true"><canvas id="sky"></canvas></div>
+<div class="backdrop" aria-hidden="true"></div>
 
 <svg id="icons" width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-angular" viewBox="0 0 24 24"><path d="M16.712 17.711H7.288l-1.204 2.916L12 24l5.916-3.373-1.204-2.916ZM14.692 0l7.832 16.855.814-12.856L14.692 0ZM9.308 0 .662 3.999l.814 12.856L9.308 0Zm-.405 13.93h6.198L12 6.396 8.903 13.93Z"/></symbol>
+  <symbol id="i-springsecurity" viewBox="0 0 24 24"><path d="M20.59 2.066 11.993 0 3.41 2.066v6.612h4.557a3.804 3.804 0 0 0 0 .954H3.41v3.106C3.41 19.867 11.994 24 11.994 24s8.582-4.133 8.582-11.258V9.635h-4.545a3.616 3.616 0 0 0 0-.954h4.558zM12 12.262h-.006a3.109 3.109 0 1 1 .006 0zm-.006-4.579a.804.804 0 0 0-.37 1.52v.208l.238.237v.159l.159.159v.159l-.14.14.15.246v.159l-.16.189.223.222.246-.246V9.218a.804.804 0 0 0-.346-1.535zm0 .836a.299.299 0 1 1 .298-.299.299.299 0 0 1-.298.3z"/></symbol><symbol id="i-vitest" viewBox="0 0 24 24"><path d="M13.74024 1.05293a.49504.49504 0 0 0-.1569.02512.49338.49338 0 0 0-.25056.1876L7.59513 9.56159a.4895.4895 0 0 0-.08373.22327.48846.48846 0 0 0 .03163.23629.4893.4893 0 0 0 .13985.19319.4927.4927 0 0 0 .2149.10481l3.70685.78609-.22947 4.58007a.48834.48834 0 0 0 .08466.30017.49205.49205 0 0 0 .24931.18854c.10157.03398.21174.03444.3135.00064a.49387.49387 0 0 0 .25056-.18761l5.73735-8.29594a.4884.4884 0 0 0 .08404-.22327c.009-.08015-.0016-.16137-.03163-.23629a.48835.48835 0 0 0-.13985-.19319.49318.49318 0 0 0-.2149-.1048l-3.70686-.7861.22947-4.58008a.48802.48802 0 0 0-.08466-.30017.4913.4913 0 0 0-.24931-.18853.49439.49439 0 0 0-.1566-.02574zM1.15697 9.78795c-.30647.0012-.60009.12378-.81679.34048a1.16107 1.16107 0 0 0-.34017.81648 1.162 1.162 0 0 0 .33366.81957l10.84241 10.8421a1.15762 1.15762 0 0 0 .37677.25211 1.1583 1.1583 0 0 0 .44467.08838c.00084 0 .0016-.00031.0025-.00031.00073 0 .0014.00031.0022.00031a1.15827 1.15827 0 0 0 .44467-.08838 1.15731 1.15731 0 0 0 .37677-.2521l10.84236-10.8421a1.16272 1.16272 0 0 0 .33397-.81958c-.0013-.30647-.12376-.59976-.34048-.81648a1.1616 1.1616 0 0 0-.81679-.34048 1.16114 1.16114 0 0 0-.81926.33366l-5.4012 5.4009c-.0078.0074-.01718.01255-.02482.02015L12 20.14011l-4.59776-4.59745c-.0074-.0074-.01659-.01238-.02419-.01954l-5.4015-5.40151a1.162 1.162 0 0 0-.81958-.33366Z"/></symbol><symbol id="i-materialdesign" viewBox="0 0 24 24"><path d="M12 0C5.377 0 0 5.377 0 12s5.377 12 12 12 12-5.377 12-12S18.623 0 12 0zm0 .75c2.871 0 5.482 1.082 7.469 2.85H4.53A11.197 11.197 0 0 1 12 .75zm-7.186 3.6h14.372L12 18.723 4.814 4.35zM3.6 4.53V19.47A11.197 11.197 0 0 1 .75 12c0-2.87 1.082-5.481 2.85-7.468zm16.8 0A11.197 11.197 0 0 1 23.25 12c0 2.871-1.082 5.482-2.85 7.469V4.53zM4.35 5.1l7.275 14.55H4.35V5.1zm15.3 0v14.55h-7.275L19.651 5.1zM4.533 20.4H19.469A11.197 11.197 0 0 1 12 23.25a11.197 11.197 0 0 1-7.468-2.85z"/></symbol><symbol id="i-vision" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-neural" viewBox="0 0 24 24"><path d="M5 6.5a1.5 1.5 0 1 0 0 .01M5 17.5a1.5 1.5 0 1 0 0 .01M12 12a1.5 1.5 0 1 0 0 .01M19 6.5a1.5 1.5 0 1 0 0 .01M19 17.5a1.5 1.5 0 1 0 0 .01M6.3 7.3l4.4 3.9M6.3 16.7l4.4-3.9M13.3 11.2l4.4-3.9M13.3 12.8l4.4 3.9M5 8v8M19 8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol><symbol id="i-angular" viewBox="0 0 24 24"><path d="M16.712 17.711H7.288l-1.204 2.916L12 24l5.916-3.373-1.204-2.916ZM14.692 0l7.832 16.855.814-12.856L14.692 0ZM9.308 0 .662 3.999l.814 12.856L9.308 0Zm-.405 13.93h6.198L12 6.396 8.903 13.93Z"/></symbol>
   <symbol id="i-ansible" viewBox="0 0 24 24"><path d="M10.617 11.473l4.686 3.695-3.102-7.662zM12 0C5.371 0 0 5.371 0 12s5.371 12 12 12 12-5.371 12-12S18.629 0 12 0zm5.797 17.305c-.011.471-.403.842-.875.83-.236 0-.416-.09-.664-.293l-6.19-5-2.079 5.203H6.191L11.438 5.44c.124-.314.427-.52.764-.506.326-.014.63.189.742.506l4.774 11.494c.045.111.08.234.08.348-.001.009-.001.009-.001.023z"/></symbol>
   <symbol id="i-anthropic" viewBox="0 0 24 24"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></symbol>
   <symbol id="i-claude" viewBox="0 0 24 24"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></symbol>
@@ -501,7 +530,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
           <button class="tile" type="button" aria-haspopup="dialog">
             <figure class="media"><video src="assets/video/portail-donnees.mp4" poster="assets/video/portail-donnees.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Recherche d’une organisation, puis ouverture d’un client invalide et de son erreur dans le portail"></video></figure>
             <span class="tile-cap"><span class="tile-title">Portail client – données</span><span class="ctx">Etix Everywhere</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li><svg style="color:#06B6D4" aria-hidden="true"><use href="#i-tailwindcss"/></svg>Tailwind</li><li class="more">+5</li></ul>
+            <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li class="more">+4</li></ul>
           </button>
           <div class="detail">
           <div class="card-top"><span class="state">En production interne</span><span class="ctx">Etix Everywhere</span></div>
@@ -510,7 +539,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
             <li>API REST Spring Boot et front Angular séparés</li>
             <li>Base PostgreSQL versionnée avec Liquibase, tunnel vers Dolibarr, Docker Compose</li>
           </ul>
-          <ul class="tags"><li>Java 25</li><li>Spring Boot 4</li><li>Spring Security</li><li>PostgreSQL</li><li>Liquibase</li><li>Angular 22</li><li>Material</li><li>Tailwind 4</li><li>Chart.js</li></ul>
+          <ul class="tags"><li><svg aria-hidden="true"><use href="#i-openjdk"/></svg>Java 25</li><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot 4</li><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springsecurity"/></svg>Spring Security</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li><svg style="color:#2962FF" aria-hidden="true"><use href="#i-liquibase"/></svg>Liquibase</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular 22</li><li><svg style="color:#757575" aria-hidden="true"><use href="#i-materialdesign"/></svg>Material</li></ul>
           </div>
         </article>
 
@@ -523,7 +552,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
           <div class="detail">
           <div class="card-top"><span class="state wip">En développement</span><span class="ctx">Personnel</span></div>
           <p>Une application de veille pour enregistrer, étiqueter et retrouver articles, vidéos, dépôts et vulnérabilités de sécurité.</p>
-          <ul class="tags"><li>Spring Boot 4.1</li><li>MongoDB</li><li>Angular 22</li><li>PrimeNG</li><li>Docker</li></ul>
+          <ul class="tags"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot 4.1</li><li><svg style="color:#47A248" aria-hidden="true"><use href="#i-mongodb"/></svg>MongoDB</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular 22</li><li><svg aria-hidden="true"><use href="#i-primeng"/></svg>PrimeNG</li><li><svg style="color:#2496ED" aria-hidden="true"><use href="#i-docker"/></svg>Docker</li></ul>
           <!-- Point the repo href at the project repository, and turn the demo span into an <a class="repo"> once deployed -->
           <div class="links"><a class="repo" href="https://github.com/LouisonFvrs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Voir le code</a><span class="repo off" title="Pas encore déployé"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Démo bientôt en ligne</span></div>
           </div>
@@ -538,7 +567,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
           <div class="detail">
           <div class="card-top"><span class="state wip">En développement</span><span class="ctx">Personnel</span></div>
           <p>Les salariés posent leurs demandes en ligne, les managers les valident, la RH suit l'ensemble au même endroit.</p>
-          <ul class="tags"><li>Spring Boot 4.1</li><li>PostgreSQL</li><li>Angular 22</li><li>Vitest</li></ul>
+          <ul class="tags"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot 4.1</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular 22</li><li><svg style="color:#6E9F18" aria-hidden="true"><use href="#i-vitest"/></svg>Vitest</li></ul>
           <!-- Point the repo href at the project repository, and turn the demo span into an <a class="repo"> once deployed -->
           <div class="links"><a class="repo" href="https://github.com/LouisonFvrs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Voir le code</a><span class="repo off" title="Pas encore déployé"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Démo bientôt en ligne</span></div>
           </div>
@@ -557,7 +586,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
             <li>Détection et suivi du volant et des joueurs image par image</li>
             <li>Classification des frappes (smash, dégagement, amorti…) et tableau de bord du match</li>
           </ul>
-          <ul class="tags"><li>Python</li><li>Vision par ordinateur</li><li>Deep learning</li></ul>
+          <ul class="tags"><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg aria-hidden="true"><use href="#i-vision"/></svg>Vision par ordinateur</li><li><svg aria-hidden="true"><use href="#i-neural"/></svg>Deep learning</li></ul>
           <!-- Point the repo href at the project repository, and turn the demo span into an <a class="repo"> once deployed -->
           <div class="links"><a class="repo" href="https://github.com/LouisonFvrs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Voir le code</a><span class="repo off" title="Pas encore déployé"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Démo bientôt en ligne</span></div>
           </div>
@@ -740,73 +769,6 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
   addEventListener("scroll", queue, { passive: true });
   addEventListener("resize", queue);
   drawTimeline();
-
-  // Constellation in the accent color of the active theme
-  const sky = document.getElementById("sky");
-  const ctx = sky.getContext("2d");
-  const darkMq = matchMedia("(prefers-color-scheme: dark)");
-  const LINK = 130;
-  let stars = [], w = 0, h = 0, rgb = "143,220,255", frame = 0;
-  const pointer = { x: -1e4, y: -1e4 };
-
-  const resize = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    w = innerWidth; h = innerHeight;
-    sky.width = w * dpr; sky.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const count = Math.round(Math.min(110, w * h / 14000));
-    stars = Array.from({ length: count }, () => ({
-      x: Math.random() * w, y: Math.random() * h,
-      vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .18,
-      r: Math.random() * 1.3 + .4, tw: Math.random() * Math.PI * 2,
-    }));
-  };
-  const readColor = () => {
-    const probe = getComputedStyle(root).getPropertyValue("--accent").trim();
-    const m = probe.match(/^#([0-9a-f]{6})$/i);
-    if (m) rgb = [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)).join(",");
-  };
-  const draw = t => {
-    ctx.clearRect(0, 0, w, h);
-    for (const s of stars) {
-      if (!reduce) {
-        s.x += s.vx; s.y += s.vy;
-        if (s.x < -10) s.x = w + 10; else if (s.x > w + 10) s.x = -10;
-        if (s.y < -10) s.y = h + 10; else if (s.y > h + 10) s.y = -10;
-      }
-    }
-    const nodes = stars.concat([pointer]);
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i], b = nodes[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        const reach = b === pointer ? LINK * 1.4 : LINK;
-        if (d < reach) {
-          ctx.strokeStyle = `rgba(${rgb},${(1 - d / reach) * (b === pointer ? .45 : .22)})`;
-          ctx.lineWidth = .7;
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-        }
-      }
-    }
-    for (const s of stars) {
-      const glow = reduce ? .8 : .55 + .45 * Math.sin(t / 900 + s.tw);
-      ctx.fillStyle = `rgba(${rgb},${glow})`;
-      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
-    }
-    if (!reduce) frame = requestAnimationFrame(draw);
-  };
-  const syncSky = () => {
-    cancelAnimationFrame(frame);
-    readColor(); draw(performance.now());
-  };
-  resize();
-  addEventListener("resize", () => { resize(); syncSky(); });
-  addEventListener("pointermove", e => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
-  document.addEventListener("pointerleave", () => { pointer.x = pointer.y = -1e4; });
-  document.addEventListener("visibilitychange", () => document.hidden ? cancelAnimationFrame(frame) : syncSky());
-  darkMq.addEventListener("change", syncSky);
-  new MutationObserver(syncSky).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-  syncSky();
 
   // Highlight the section currently in view in the sidebar index
   const links = [...document.querySelectorAll(".toc a")];
