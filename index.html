@@ -92,7 +92,7 @@
 /* Self-hosted so no visitor data is sent to a third-party font service */
 @font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url("assets/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
-/* Layout: sticky profile column on the left, scrolling timeline on the right, floating dock at the bottom. */
+/* Layout: sticky profile column on the left, scrolling content on the right, floating dock at the bottom. */
 /* Frosted glass over raspberry and blue glows: pale blue paper in light, navy in dark. */
 :root {
   --bg: #f3f4fa;
@@ -233,38 +233,52 @@ section > h2 { font-size: 22px; font-weight: 600; }
   transform-origin: top; transform: scaleY(var(--p, 0));
   box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
 }
-.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.timeline > li { position: relative; display: grid; grid-template-columns: 112px 1fr; gap: 24px; padding-block: 22px; }
-.timeline > li:first-child { padding-top: 0; }
-.timeline > li::before {
-  content: ""; position: absolute; left: -34px; top: 28px; width: 12px; height: 12px; border-radius: 50%;
-  background: var(--bg); border: 2px solid var(--line);
-  transition: border-color .3s, background-color .3s, box-shadow .3s;
+/* Experience and education: compact rows, a click unfolds the description and the technologies */
+.xp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.xp > li { position: relative; }
+/* One dot per entry on the line, level with the logo; it lights up once the line reaches it */
+.xp > li::before {
+  content: ""; position: absolute; left: -34px; top: 30px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--line); transition: border-color .3s, background-color .3s, box-shadow .3s;
 }
-.timeline > li:first-child::before { top: 6px; }
-.timeline > li.on::before {
-  border-color: var(--accent); background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+.xp > li.on::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.xp > li > * { transition: opacity .4s; }
+.xp > li:not(.on) > * { opacity: .55; }
+.xp-row {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center;
+  width: calc(100% + 28px); margin: 0 -14px; padding: 14px; border: 0; border-radius: 14px;
+  font: inherit; color: inherit; text-align: left; background: none; cursor: pointer; transition: background .35s ease;
 }
-.timeline > li .what { transition: opacity .4s; }
-.timeline > li:not(.on) .what { opacity: .55; }
-.when { font-family: var(--mono); font-size: 12.5px; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
-.what { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.what h3 { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
-.what h3 small { font-weight: 400; color: var(--muted); font-size: 15px; }
-.what-head { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; align-self: flex-start; }
-.what-head small { transition: color .2s; }
-.what-head:hover small { color: var(--ink); }
-.school {
-  flex: none; height: 36px; min-width: 36px; padding: 0 6px; box-sizing: border-box;
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-  background: #fff; border: 1px solid var(--line); border-radius: 9px;
-}
-/* Fixed pixel sizes: a percentage would not resolve against the auto-sized tile */
-.school img { height: 24px; width: auto; max-width: 92px; display: block; }
-.school.fill { padding: 0; border: 0; }
-.school.fill img { width: 36px; height: 36px; max-width: none; object-fit: cover; }
-.what p { color: var(--muted); }
+.xp-row:hover, .xp > li.open .xp-row { background: color-mix(in srgb, var(--surface) 75%, transparent); }
+.xp-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.xp-logo { width: 44px; height: 44px; border-radius: 11px; overflow: hidden; display: grid; place-items: center; background: #fff; border: 1px solid var(--line); }
+.xp-logo img { width: 30px; height: 30px; object-fit: contain; display: block; }
+.xp-logo.fill { border: 0; }
+.xp-logo.fill img { width: 100%; height: 100%; object-fit: cover; }
+.xp-main { min-width: 0; }
+.xp-name { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.xp-name svg { width: 14px; height: 14px; fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .25s; }
+.xp-row:hover .xp-name svg, .xp-row:focus-visible .xp-name svg { opacity: 1; transform: none; }
+.xp > li.open .xp-name svg { opacity: 1; transform: rotate(90deg); transition: opacity .2s, transform .45s cubic-bezier(.22, 1, .36, 1); }
+.xp-role { display: block; margin-top: 2px; font-size: 13.5px; color: var(--muted); }
+.xp-when { align-self: start; padding-top: 3px; font: 12.5px var(--mono); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Soft unfold: the height eases open while the content fades and slides in slightly after it */
+.xp-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1); }
+.xp > li.open .xp-detail { grid-template-rows: 1fr; }
+.xp-detail > div > * { opacity: 0; transform: translateY(-6px); transition: opacity .2s ease, transform .3s ease; }
+.xp > li.open .xp-detail > div > * { opacity: 1; transform: none; transition: opacity .45s ease .12s, transform .55s cubic-bezier(.22, 1, .36, 1) .12s; }
+.xp > li.open .xp-detail > div > :nth-child(2) { transition-delay: .18s; }
+.xp > li.open .xp-detail > div > :nth-child(3) { transition-delay: .24s; }
+.xp > li.open .xp-detail > div > :nth-child(4) { transition-delay: .3s; }
+@media (prefers-reduced-motion: reduce) { .xp-detail, .xp-detail > div > * { transition: none !important; } }
+.xp-detail > div { overflow: hidden; padding-left: 58px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.xp-detail > div > :first-child { margin-top: 10px; }
+.xp-detail > div > :last-child { margin-bottom: 18px; }
+.xp-detail p { color: var(--muted); font-size: 14.5px; max-width: 62ch; }
+.xp-detail ul.points { margin: -4px 0 0; padding-left: 0; list-style-position: outside; color: var(--muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 4px; max-width: 62ch; }
+.xp-detail ul.points li::marker { color: var(--accent); }
+.xp-link { font: 12px var(--mono); color: var(--accent); text-decoration: none; }
+.xp-link:hover { text-decoration: underline; }
 
 /* Projects */
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -447,7 +461,11 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
   .projects { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
-  .timeline > li, .skills > div { grid-template-columns: 1fr; gap: 6px; }
+  .skills > div { grid-template-columns: 1fr; gap: 6px; }
+  .xp-row { grid-template-columns: 40px 1fr; }
+  .xp-logo { width: 40px; height: 40px; }
+  .xp-when { grid-column: 2; padding-top: 0; }
+  .xp-detail > div { padding-left: 0; }
   main { gap: 72px; }
 }
 </style>
@@ -515,7 +533,8 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
     <a class="btn ghost fx" style="--i:4" href="ressources/cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M12 12v6M9 15l3 3 3-3"/></svg>Télécharger mon CV</a>
     <nav class="toc fx" style="--i:4" aria-label="Sections">
       <a href="#projets">Projets</a>
-      <a href="#parcours">Parcours</a>
+      <a href="#experience">Expérience</a>
+      <a href="#formation">Formation</a>
       <a href="#competences">Compétences</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -528,7 +547,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
         <article class="card wide">
           <!-- Replace the placeholder with <img src="…gif" alt="…"> or <video src="…mp4" autoplay muted loop playsinline></video> -->
           <button class="tile" type="button" aria-haspopup="dialog">
-            <figure class="media"><video src="assets/video/portail-donnees.mp4" poster="assets/video/portail-donnees.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Recherche d’une organisation, puis ouverture d’un client invalide et de son erreur dans le portail"></video></figure>
+            <figure class="media"><video src="assets/video/portail-donnees.mp4" poster="assets/video/portail-donnees.jpg" muted loop playsinline preload="none" aria-label="Présentation animée du portail client : sources de données et tableau de bord"></video></figure>
             <span class="tile-cap"><span class="tile-title">Portail client – données</span><span class="ctx">Etix Everywhere</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
             <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li class="more">+4</li></ul>
           </button>
@@ -545,7 +564,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
 
         <article class="card">
           <button class="tile" type="button" aria-haspopup="dialog">
-            <figure class="media"><video src="assets/video/stash.mp4" poster="assets/video/stash.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Démonstration de Stash : ajout d'une ressource, étiquettes et recherche filtrée"></video></figure>
+            <figure class="media"><video src="assets/video/stash.mp4" poster="assets/video/stash.jpg" muted loop playsinline preload="none" aria-label="Démonstration de Stash : ajout d'une ressource, étiquettes et recherche filtrée"></video></figure>
             <span class="tile-cap"><span class="tile-title">Stash</span><span class="ctx">Personnel</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
             <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#47A248" aria-hidden="true"><use href="#i-mongodb"/></svg>MongoDB</li><li><svg style="color:#2496ED" aria-hidden="true"><use href="#i-docker"/></svg>Docker</li><li class="more">+2</li></ul>
           </button>
@@ -565,7 +584,7 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
 
         <article class="card">
           <button class="tile" type="button" aria-haspopup="dialog">
-            <figure class="media"><video src="assets/video/room-booking.mp4" poster="assets/video/room-booking.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Démonstration de Room Booking : connexion, planning des salles et création d'une réservation récurrente"></video></figure>
+            <figure class="media"><video src="assets/video/room-booking.mp4" poster="assets/video/room-booking.jpg" muted loop playsinline preload="none" aria-label="Démonstration de Room Booking : connexion, planning des salles et création d'une réservation récurrente"></video></figure>
             <span class="tile-cap"><span class="tile-title">Room Booking</span><span class="ctx">Personnel</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
             <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li class="more">+5</li></ul>
           </button>
@@ -605,51 +624,119 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
       </div>
     </section>
 
-    <section id="parcours" aria-labelledby="parcours-t">
-      <span class="eyebrow">Parcours</span>
-      <h2 id="parcours-t" hidden>Parcours</h2>
+    <section id="experience" aria-labelledby="experience-t">
+      <span class="eyebrow">Expérience</span>
+      <h2 id="experience-t" hidden>Expérience</h2>
       <div class="tl"><span class="tl-fill" aria-hidden="true"></span>
-      <ol class="timeline">
+      <ul class="xp">
         <li>
-          <span class="when">Ensuite</span>
-          <div class="what">
-            <a class="what-head" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener"><span class="school fill"><img src="assets/img/eni.png" alt=""></span><h3>Expert en Architecture et Développement Logiciel <small>· ENI</small></h3></a>
-            <p>Titre Bac+5 en alternance sur deux ans : concevoir et modéliser des architectures logicielles, piloter le développement applicatif et mettre en place l'intégration et le déploiement continus.</p>
-            <ul class="tags plain logos"><li><svg aria-hidden="true"><use href="#i-microservices"/></svg>Microservices</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>CI/CD</li><li><svg aria-hidden="true"><use href="#i-devops"/></svg>DevOps</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg style="color:#F7DF1E" aria-hidden="true"><use href="#i-javascript"/></svg>JavaScript</li><li><svg style="color:#0078D4" aria-hidden="true"><use href="#i-cloud"/></svg>Azure</li><li><svg style="color:#844FBA" aria-hidden="true"><use href="#i-terraform"/></svg>Terraform</li><li><svg aria-hidden="true"><use href="#i-ansible"/></svg>Ansible</li></ul>
-          </div>
-        </li>
-        <li>
-          <span class="when">Depuis janv. 2026</span>
-          <div class="what">
-            <a class="what-head" href="https://www.etixeverywhere.com/" target="_blank" rel="noopener"><span class="school"><img src="assets/img/etix.png" alt=""></span><h3>Développeur en alternance <small>· Etix Everywhere</small></h3></a>
-            <p>Conception et développement des outils internes d'un opérateur de data centers : centralisation des données clients issues de plusieurs services, contrôle de leur qualité et nouvelle architecture en API REST et Angular.</p>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-1">
+            <span class="xp-logo"><img src="assets/img/etix.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">Etix Everywhere<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Alternance</span></span>
+            <span class="xp-when">Depuis janv. 2026</span>
+          </button>
+          <div class="xp-detail" id="xp-1"><div>
+            <p>Alternance chez un opérateur de data centers, au sein de l'équipe IT.</p>
+            <ul class="points">
+              <li>Conception et développement d'un portail clients qui centralise des données jusque-là dispersées entre plusieurs outils</li>
+              <li>Contrôle de la qualité des données et gestion des accès des utilisateurs</li>
+              <li>API REST Spring Boot, front Angular, tests automatisés et CI/CD</li>
+            </ul>
             <ul class="tags plain logos"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#4169E1" aria-hidden="true"><use href="#i-postgresql"/></svg>PostgreSQL</li><li><svg style="color:#2496ED" aria-hidden="true"><use href="#i-docker"/></svg>Docker</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>GitHub Actions</li></ul>
-          </div>
+            <a class="xp-link" href="https://www.etixeverywhere.com/" target="_blank" rel="noopener">etixeverywhere.com ↗</a>
+          </div></div>
         </li>
         <li>
-          <span class="when">2026 – 2027</span>
-          <div class="what">
-            <a class="what-head" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener"><span class="school fill"><img src="assets/img/eni.png" alt=""></span><h3>Concepteur Développeur d'Applications <small>· ENI</small></h3></a>
-            <p>Conception, architecture en couches, bases de données relationnelles et NoSQL, plans de tests et déploiement DevOps.</p>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-2">
+            <span class="xp-logo fill"><img src="assets/img/si-one.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">Si-one<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Stage</span></span>
+            <span class="xp-when">Janv. – mars 2024</span>
+          </button>
+          <div class="xp-detail" id="xp-2"><div>
+            <p>Stage de deuxième année de BTS SIO : conception et développement de l'application web qui permet de gérer les clients de Si-one et leurs contrats. Elle est en production et utilisée par l'équipe.</p>
+            <ul class="points">
+              <li>Fiches clients et contrats, paramétrage des services, des types de contrats et des indices INSEE</li>
+              <li>Coffre de mots de passe par client, inspiré de KeePass, avec copie en un clic</li>
+              <li>Authentification à double facteur par code envoyé par e-mail et rôle administrateur</li>
+            </ul>
+            <ul class="tags plain logos"><li><svg style="color:#FF2D20" aria-hidden="true"><use href="#i-laravel"/></svg>Laravel</li><li><svg style="color:#4FC08D" aria-hidden="true"><use href="#i-vuedotjs"/></svg>VueJS</li><li><svg style="color:#777BB4" aria-hidden="true"><use href="#i-php"/></svg>PHP</li></ul>
+            <a class="xp-link" href="https://www.si-one.com/" target="_blank" rel="noopener">si-one.com ↗</a>
+          </div></div>
+        </li>
+        <li>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-3">
+            <span class="xp-logo fill"><img src="assets/img/e-lyco.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">Lycée Joachim du Bellay<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Stage</span></span>
+            <span class="xp-when">Mai – juin 2023</span>
+          </button>
+          <div class="xp-detail" id="xp-3"><div>
+            <p>Stage de première année de BTS SIO : reprise et finalisation de l'application d'inscription aux activités du festival Joach'autrement, qui gère près de 400 utilisateurs.</p>
+            <ul class="points">
+              <li>Inscription des élèves depuis leur smartphone, gestion des activités et des professeurs par les organisateurs</li>
+              <li>Import CSV, filtres, impression et passeport d'activités de chaque élève</li>
+            </ul>
+            <ul class="tags plain logos"><li><svg style="color:#FF2D20" aria-hidden="true"><use href="#i-laravel"/></svg>Laravel</li><li><svg style="color:#4FC08D" aria-hidden="true"><use href="#i-vuedotjs"/></svg>VueJS</li><li><svg style="color:#4479A1" aria-hidden="true"><use href="#i-mysql"/></svg>MySQL</li><li><svg style="color:#06B6D4" aria-hidden="true"><use href="#i-tailwindcss"/></svg>Tailwind CSS</li></ul>
+            <a class="xp-link" href="https://du-bellay.paysdelaloire.e-lyco.fr/" target="_blank" rel="noopener">du-bellay.paysdelaloire.e-lyco.fr ↗</a>
+          </div></div>
+        </li>
+      </ul>
+      </div>
+    </section>
+
+    <section id="formation" aria-labelledby="formation-t">
+      <span class="eyebrow">Formation</span>
+      <h2 id="formation-t" hidden>Formation</h2>
+      <div class="tl"><span class="tl-fill" aria-hidden="true"></span>
+      <ul class="xp">
+        <li>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-4">
+            <span class="xp-logo fill"><img src="assets/img/eni.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">ENI École Informatique<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Expert en Architecture et Développement Logiciel</span></span>
+            <span class="xp-when">Ensuite</span>
+          </button>
+          <div class="xp-detail" id="xp-4"><div>
+            <p>Titre Bac+5 préparé en alternance sur deux ans, pour aller vers l'architecture : concevoir des architectures logicielles, piloter des projets techniques et industrialiser les déploiements.</p>
+            <ul class="tags plain logos"><li><svg aria-hidden="true"><use href="#i-microservices"/></svg>Microservices</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>CI/CD</li><li><svg aria-hidden="true"><use href="#i-devops"/></svg>DevOps</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg style="color:#F7DF1E" aria-hidden="true"><use href="#i-javascript"/></svg>JavaScript</li><li><svg style="color:#0078D4" aria-hidden="true"><use href="#i-cloud"/></svg>Azure</li><li><svg style="color:#844FBA" aria-hidden="true"><use href="#i-terraform"/></svg>Terraform</li><li><svg aria-hidden="true"><use href="#i-ansible"/></svg>Ansible</li></ul>
+            <a class="xp-link" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
+          </div></div>
+        </li>
+        <li>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-5">
+            <span class="xp-logo fill"><img src="assets/img/eni.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">ENI École Informatique<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Concepteur Développeur d'Applications</span></span>
+            <span class="xp-when">2026 – 2027</span>
+          </button>
+          <div class="xp-detail" id="xp-5"><div>
+            <p>Titre préparé en alternance chez Etix Everywhere : concevoir une application de bout en bout, de la modélisation des données jusqu'aux tests et au déploiement.</p>
             <ul class="tags plain logos"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg aria-hidden="true"><use href="#i-tdd"/></svg>Mockito</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg style="color:#D97757" aria-hidden="true"><use href="#i-claude"/></svg>IA</li><li><svg aria-hidden="true"><use href="#i-kanban"/></svg>Gestion de projet</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>CI/CD</li></ul>
-          </div>
+            <a class="xp-link" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
+          </div></div>
         </li>
         <li>
-          <span class="when">2024 – 2025</span>
-          <div class="what">
-            <a class="what-head" href="https://eseo.fr/" target="_blank" rel="noopener"><span class="school"><img src="assets/img/eseo.svg" alt=""></span><h3>Cycle ingénieur <small>· ESEO</small></h3></a>
-            <p>Une année en école d'ingénieurs, avant de choisir une formation tournée vers la conception et le développement d'applications.</p>
-          </div>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-6">
+            <span class="xp-logo fill"><img src="assets/img/eseo.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">ESEO<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Cycle ingénieur</span></span>
+            <span class="xp-when">2024 – 2025</span>
+          </button>
+          <div class="xp-detail" id="xp-6"><div>
+            <p>Une année en école d'ingénieurs, avant de me spécialiser dans la conception et le développement d'applications.</p>
+            
+            <a class="xp-link" href="https://eseo.fr/" target="_blank" rel="noopener">eseo.fr ↗</a>
+          </div></div>
         </li>
         <li>
-          <span class="when">2022 – 2024</span>
-          <div class="what">
-            <a class="what-head" href="https://campus-chevrollier.fr/sio/" target="_blank" rel="noopener"><span class="school"><img src="assets/img/chevrollier.png" alt=""></span><h3>BTS SIO, option SLAM <small>· Lycée Chevrollier</small></h3></a>
-            <p>Solutions logicielles et applications métiers : concevoir, développer et maintenir des applications, analyser les besoins des utilisateurs, conduire un projet, modéliser une base de données et sécuriser les applications.</p>
+          <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-7">
+            <span class="xp-logo fill"><img src="assets/img/chevrollier-sio.png" alt=""></span>
+            <span class="xp-main"><span class="xp-name">Lycée Chevrollier<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">BTS SIO, option SLAM</span></span>
+            <span class="xp-when">2022 – 2024</span>
+          </button>
+          <div class="xp-detail" id="xp-7"><div>
+            <p>Deux ans pour acquérir les bases du métier : développement d'applications métiers, modélisation de bases de données, analyse des besoins et conduite de projet en équipe.</p>
             <ul class="tags plain logos"><li><svg style="color:#F7DF1E" aria-hidden="true"><use href="#i-javascript"/></svg>JavaScript</li><li><svg style="color:#4FC08D" aria-hidden="true"><use href="#i-vuedotjs"/></svg>VueJS</li><li><svg style="color:#777BB4" aria-hidden="true"><use href="#i-php"/></svg>PHP</li><li><svg style="color:#FF2D20" aria-hidden="true"><use href="#i-laravel"/></svg>Laravel</li><li><svg style="color:#512BD4" aria-hidden="true"><use href="#i-dotnet"/></svg>C#</li><li><svg style="color:#02569B" aria-hidden="true"><use href="#i-flutter"/></svg>Flutter</li><li><svg style="color:#F05032" aria-hidden="true"><use href="#i-git"/></svg>Git</li><li><svg aria-hidden="true"><use href="#i-sql"/></svg>SQL</li><li><svg style="color:#4479A1" aria-hidden="true"><use href="#i-mysql"/></svg>MySQL</li></ul>
-          </div>
+            <a class="xp-link" href="https://campus-chevrollier.fr/sio/" target="_blank" rel="noopener">campus-chevrollier.fr ↗</a>
+          </div></div>
         </li>
-      </ol>
+      </ul>
       </div>
     </section>
 
@@ -687,7 +774,8 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
 
 <nav class="dock" aria-label="Navigation rapide">
   <a href="#projets" aria-label="Projets" title="Projets"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></a>
-  <a href="#parcours" aria-label="Parcours" title="Parcours"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5M22 10v5"/></svg></a>
+  <a href="#experience" aria-label="Expérience" title="Expérience"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 9h.01M15 9h.01M9 12.5h.01M15 12.5h.01"/></svg></a>
+  <a href="#formation" aria-label="Formation" title="Formation"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5M22 10v5"/></svg></a>
   <a href="https://github.com/LouisonFvrs" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a>
   <a href="https://www.linkedin.com/in/louison-feuvrais-69241a232/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
   <a href="ressources/cv.pdf" target="_blank" rel="noopener" aria-label="CV" title="CV"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4"/></svg></a>
@@ -761,25 +849,33 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
   });
 
   // The timeline line fills as the reading point (60% of the viewport) moves down the section
-  const tl = document.querySelector(".tl");
-  const fill = tl.querySelector(".tl-fill");
-  const steps = [...tl.querySelectorAll(".timeline > li")];
+  const timelines = [...document.querySelectorAll(".tl")].map(tl => ({
+    tl, fill: tl.querySelector(".tl-fill"), steps: [...tl.querySelectorAll(".xp > li")],
+  }));
   let ticking = false;
   const drawTimeline = () => {
     ticking = false;
-    const box = tl.getBoundingClientRect();
-    const reach = reduce ? Infinity : innerHeight * 0.6 - box.top;
-    const p = Math.max(0, Math.min(1, reach / box.height));
-    fill.style.setProperty("--p", p);
-    steps.forEach(li => {
-      const dot = li.offsetTop + (li === steps[0] ? 12 : 34);
-      li.classList.toggle("on", dot <= p * box.height + 1);
+    timelines.forEach(({ tl, fill, steps }) => {
+      const box = tl.getBoundingClientRect();
+      const reach = reduce ? Infinity : innerHeight * 0.6 - box.top;
+      const p = Math.max(0, Math.min(1, reach / box.height));
+      fill.style.setProperty("--p", p);
+      steps.forEach(li => {
+        const dot = li.offsetTop + 36;
+        li.classList.toggle("on", dot <= p * box.height + 1);
+      });
     });
   };
   const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(drawTimeline); } };
   addEventListener("scroll", queue, { passive: true });
   addEventListener("resize", queue);
   drawTimeline();
+
+  // Experience and education rows unfold on click; the line is redrawn once the height has changed
+  document.querySelectorAll(".xp-row").forEach(row => row.addEventListener("click", () => {
+    row.setAttribute("aria-expanded", String(row.parentElement.classList.toggle("open")));
+    setTimeout(queue, 560);
+  }));
 
   // Highlight the section currently in view in the sidebar index
   const links = [...document.querySelectorAll(".toc a")];
