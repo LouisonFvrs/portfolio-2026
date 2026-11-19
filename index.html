@@ -168,6 +168,8 @@ a { color: inherit; }
   mask-image: radial-gradient(ellipse 130% 95% at 50% 0%, #000 40%, transparent 88%);
 }
 .page, footer { position: relative; z-index: 1; }
+/* The reading veil may reach past the viewport edge: clip it rather than add a horizontal scroll */
+.page { overflow-x: clip; }
 
 .page {
   max-width: 1080px; margin: 0 auto;
@@ -208,7 +210,14 @@ a { color: inherit; }
 .toc a:hover::before, .toc a.on::before { width: 48px; }
 
 /* Content */
-main { display: flex; flex-direction: column; gap: 96px; min-width: 0; }
+main { display: flex; flex-direction: column; gap: 96px; min-width: 0; position: relative; }
+/* A soft veil behind the reading column quiets the dotted grid where the text is, and fades out on both sides */
+main::before {
+  content: ""; position: absolute; inset: -160px -140px; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--bg) 35%, transparent) 10%, color-mix(in srgb, var(--bg) 70%, transparent) 20%, color-mix(in srgb, var(--bg) 80%, transparent) 28%, color-mix(in srgb, var(--bg) 80%, transparent) 72%, color-mix(in srgb, var(--bg) 70%, transparent) 80%, color-mix(in srgb, var(--bg) 35%, transparent) 90%, transparent);
+  -webkit-mask-image: linear-gradient(transparent, #000 160px, #000 calc(100% - 160px), transparent);
+  mask-image: linear-gradient(transparent, #000 160px, #000 calc(100% - 160px), transparent);
+}
 section { display: flex; flex-direction: column; gap: 28px; scroll-margin-top: 88px; }
 .eyebrow { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 /* Section titles: larger, in ink, with an accent mark and a rule running to the edge */
@@ -227,7 +236,8 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .tl::before, .tl-fill {
   content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; border-radius: 2px;
 }
-.tl::before { background: var(--line); }
+/* The track stays faint so the filled part and the halos carry the eye */
+.tl::before { background: var(--line); opacity: .35; }
 .tl-fill {
   background: linear-gradient(to bottom, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--bg)));
   transform-origin: top; transform: scaleY(var(--p, 0));
@@ -238,10 +248,10 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .xp > li { position: relative; }
 /* One dot per entry on the line, level with the logo; it lights up once the line reaches it */
 .xp > li::before {
-  content: ""; position: absolute; left: -34px; top: 30px; width: 12px; height: 12px; border-radius: 50%;
-  background: var(--bg); border: 2px solid var(--line); transition: border-color .3s, background-color .3s, box-shadow .3s;
+  content: ""; position: absolute; left: -32px; top: 32px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--line); transition: background-color .3s, box-shadow .4s;
 }
-.xp > li.on::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.xp > li.on::before { background: var(--accent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 14%, transparent), 0 0 22px 6px color-mix(in srgb, var(--accent) 35%, transparent); }
 .xp > li > * { transition: opacity .4s; }
 .xp > li:not(.on) > * { opacity: .55; }
 .xp-row {
@@ -250,6 +260,8 @@ section > h2 { font-size: 22px; font-weight: 600; }
   font: inherit; color: inherit; text-align: left; background: none; cursor: pointer; transition: background .35s ease;
 }
 .xp-row:hover, .xp > li.open .xp-row { background: color-mix(in srgb, var(--surface) 75%, transparent); }
+/* Once open, the row and its detail read as one block: the detail extends the row background and its corners */
+.xp > li.open .xp-row { border-radius: 14px 14px 0 0; }
 .xp-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .xp-logo { width: 44px; height: 44px; border-radius: 11px; overflow: hidden; display: grid; place-items: center; background: #fff; border: 1px solid var(--line); }
 .xp-logo img { width: 30px; height: 30px; object-fit: contain; display: block; }
@@ -263,8 +275,8 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .xp-role { display: block; margin-top: 2px; font-size: 13.5px; color: var(--muted); }
 .xp-when { align-self: start; padding-top: 3px; font: 12.5px var(--mono); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 /* Soft unfold: the height eases open while the content fades and slides in slightly after it */
-.xp-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1); }
-.xp > li.open .xp-detail { grid-template-rows: 1fr; }
+.xp-detail { margin: 0 -14px; padding: 0 14px; border-radius: 0 0 14px 14px; background: transparent; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1), background .35s ease; }
+.xp > li.open .xp-detail { grid-template-rows: 1fr; background: color-mix(in srgb, var(--surface) 75%, transparent); }
 .xp-detail > div > * { opacity: 0; transform: translateY(-6px); transition: opacity .2s ease, transform .3s ease; }
 .xp > li.open .xp-detail > div > * { opacity: 1; transform: none; transition: opacity .45s ease .12s, transform .55s cubic-bezier(.22, 1, .36, 1) .12s; }
 .xp > li.open .xp-detail > div > :nth-child(2) { transition-delay: .18s; }
