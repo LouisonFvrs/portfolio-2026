@@ -386,7 +386,7 @@ html:has(.sheet[open]) { overflow: hidden; }
 
 /* Contact */
 .contact { display: flex; flex-direction: column; gap: 18px; }
-.contact p { color: var(--muted); max-width: 46ch; }
+.contact p { color: var(--muted); max-width: 64ch; }
 .btn {
   align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
   background: var(--ink); color: var(--bg); text-decoration: none;
@@ -774,8 +774,8 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
 
     <section id="contact" class="contact" aria-labelledby="contact-t">
       <span class="eyebrow">Contact</span>
-      <h2 id="contact-t">Parlons de votre projet</h2>
-      <p>Écrivez-moi pour un projet, une question ou un échange. Mon code et mes projets personnels sont sur GitHub.</p>
+      <h2 id="contact-t" hidden>Contact</h2>
+      <p>Une question sur un de mes projets, sur mon parcours, ou simplement l'envie d'échanger sur le développement ? Écrivez-moi. Mon code est sur GitHub.</p>
       <div class="mail">
         <a href="mailto:contact@louisonfeuvrais.fr" id="mail-addr">contact@louisonfeuvrais.fr</a>
         <button type="button" id="copy-mail" class="copy">Copier</button>
