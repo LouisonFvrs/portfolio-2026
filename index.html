@@ -287,7 +287,7 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .xp-detail > div > :first-child { margin-top: 10px; }
 .xp-detail > div > :last-child { margin-bottom: 18px; }
 .xp-detail p { color: var(--muted); font-size: 14.5px; max-width: 62ch; }
-.xp-detail ul.points { margin: -4px 0 0; padding-left: 0; list-style-position: outside; color: var(--muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 4px; max-width: 62ch; }
+.xp-detail ul.points { margin: -4px 0 0; padding-left: 1.15em; list-style-position: outside; color: var(--muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 4px; max-width: 62ch; }
 .xp-detail ul.points li::marker { color: var(--accent); }
 .xp-link { font: 12px var(--mono); color: var(--accent); text-decoration: none; }
 .xp-link:hover { text-decoration: underline; }
@@ -337,7 +337,6 @@ section > h2 { font-size: 22px; font-weight: 600; }
 .state { font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 7px; }
 .state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 20%, transparent); }
 .state.wip::before { background: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 20%, transparent); }
-.state.idea::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--faint); }
 .ctx { font-size: 12.5px; color: var(--faint); }
 
 /* Project detail, opened from a tile */
@@ -628,15 +627,15 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
             <ul class="tile-stack" aria-label="Technologies"><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li class="more">+2</li></ul>
           </button>
           <div class="detail">
-          <div class="card-top"><span class="state idea">À venir</span><span class="ctx">Personnel</span></div>
+          <div class="card-top"><span class="state wip">En développement</span><span class="ctx">Personnel</span></div>
           <p>Une IA qui analyse la vidéo d'une partie de badminton : elle suit le volant et les joueurs, reconnaît les coups joués et en tire des statistiques pour progresser.</p>
           <ul class="points">
             <li>Détection et suivi du volant et des joueurs image par image</li>
             <li>Classification des frappes (smash, dégagement, amorti…) et tableau de bord du match</li>
           </ul>
           <ul class="tags"><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg aria-hidden="true"><use href="#i-vision"/></svg>Vision par ordinateur</li><li><svg aria-hidden="true"><use href="#i-neural"/></svg>Deep learning</li></ul>
-          <!-- Point the repo href at the project repository, and turn the demo span into an <a class="repo"> once deployed -->
-          <div class="links"><a class="repo" href="https://github.com/LouisonFvrs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Voir le code</a><span class="repo off" title="Pas encore déployé"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Démo bientôt en ligne</span></div>
+          <!-- No public demo: the card video will show the finished project. Point the repo href at the project repository once it exists -->
+          <div class="links"><a class="repo" href="https://github.com/LouisonFvrs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Voir le code</a></div>
           </div>
         </article>
       </div>
@@ -709,13 +708,20 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
         <li>
           <button class="xp-row" type="button" aria-expanded="false" aria-controls="xp-4">
             <span class="xp-logo fill"><img src="assets/img/eni.png" alt=""></span>
-            <span class="xp-main"><span class="xp-name">ENI École Informatique<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Expert en Architecture et Développement Logiciel</span></span>
+            <span class="xp-main"><span class="xp-name">ENI École Informatique<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span><span class="xp-role">Expert en Architecture et Solutions Data &amp; IA</span></span>
             <span class="xp-when">Ensuite</span>
           </button>
           <div class="xp-detail" id="xp-4"><div>
-            <p>Titre Bac+5 préparé en alternance sur deux ans, pour aller vers l'architecture : concevoir des architectures logicielles, piloter des projets techniques et industrialiser les déploiements.</p>
+            <p>Diplôme Bac+5 reconnu par l'État, préparé en alternance sur deux ans, pour évoluer vers l'architecture des systèmes d'information.</p>
+            <ul class="points">
+              <li>Architecture et conception de systèmes logiciels</li>
+              <li>Cloud et infrastructure</li>
+              <li>Sécurité et DevOps</li>
+              <li>Management et leadership</li>
+              <li>Big Data et technologies émergentes</li>
+            </ul>
             <ul class="tags plain logos"><li><svg aria-hidden="true"><use href="#i-microservices"/></svg>Microservices</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>CI/CD</li><li><svg aria-hidden="true"><use href="#i-devops"/></svg>DevOps</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg style="color:#F7DF1E" aria-hidden="true"><use href="#i-javascript"/></svg>JavaScript</li><li><svg style="color:#0078D4" aria-hidden="true"><use href="#i-cloud"/></svg>Azure</li><li><svg style="color:#844FBA" aria-hidden="true"><use href="#i-terraform"/></svg>Terraform</li><li><svg aria-hidden="true"><use href="#i-ansible"/></svg>Ansible</li></ul>
-            <a class="xp-link" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
+            <a class="xp-link" href="https://www.eni-ecole.fr/formations/developpement/formation-expert-en-architecture-et-solutions-data-ia-bac5/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
           </div></div>
         </li>
         <li>
@@ -725,9 +731,18 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
             <span class="xp-when">2026 – 2027</span>
           </button>
           <div class="xp-detail" id="xp-5"><div>
-            <p>Titre préparé en alternance chez Etix Everywhere : concevoir une application de bout en bout, de la modélisation des données jusqu'aux tests et au déploiement.</p>
-            <ul class="tags plain logos"><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg aria-hidden="true"><use href="#i-tdd"/></svg>Mockito</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li><li><svg style="color:#D97757" aria-hidden="true"><use href="#i-claude"/></svg>IA</li><li><svg aria-hidden="true"><use href="#i-kanban"/></svg>Gestion de projet</li><li><svg style="color:#2088FF" aria-hidden="true"><use href="#i-githubactions"/></svg>CI/CD</li></ul>
-            <a class="xp-link" href="https://www.eni-ecole.fr/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
+            <p>Titre professionnel de niveau 6 certifié par l'État, préparé en alternance chez Etix Everywhere.</p>
+            <ul class="points">
+              <li>Back-end en Java avec Spring Boot, Spring Security et l'ORM</li>
+              <li>Bases de données SQL : requêtes, procédures stockées et sécurité des données</li>
+              <li>Front-end avec Angular, et applications multiplateformes avec Flutter</li>
+              <li>Analyse et conception, gestion de projet et communication</li>
+              <li>DevOps : infrastructure et déploiement d'applications</li>
+              <li>Projet fullstack en Java et Angular</li>
+              <li>Initiation à l'intelligence artificielle</li>
+            </ul>
+            <ul class="tags plain logos"><li><svg aria-hidden="true"><use href="#i-openjdk"/></svg>Java</li><li><svg style="color:#6DB33F" aria-hidden="true"><use href="#i-springboot"/></svg>Spring Boot</li><li><svg style="color:#DD0031" aria-hidden="true"><use href="#i-angular"/></svg>Angular</li><li><svg aria-hidden="true"><use href="#i-sql"/></svg>SQL</li><li><svg style="color:#02569B" aria-hidden="true"><use href="#i-flutter"/></svg>Flutter</li><li><svg aria-hidden="true"><use href="#i-devops"/></svg>DevOps</li><li><svg style="color:#3776AB" aria-hidden="true"><use href="#i-python"/></svg>Python</li></ul>
+            <a class="xp-link" href="https://www.eni-ecole.fr/formations/developpement/formation-concepteur-developpeur-ia-agentique-bac3/" target="_blank" rel="noopener">eni-ecole.fr ↗</a>
           </div></div>
         </li>
         <li>
@@ -749,8 +764,15 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
             <span class="xp-when">2022 – 2024</span>
           </button>
           <div class="xp-detail" id="xp-7"><div>
-            <p>Deux ans pour acquérir les bases du métier : développement d'applications métiers, modélisation de bases de données, analyse des besoins et conduite de projet en équipe.</p>
-            <ul class="tags plain logos"><li><svg style="color:#F7DF1E" aria-hidden="true"><use href="#i-javascript"/></svg>JavaScript</li><li><svg style="color:#4FC08D" aria-hidden="true"><use href="#i-vuedotjs"/></svg>VueJS</li><li><svg style="color:#777BB4" aria-hidden="true"><use href="#i-php"/></svg>PHP</li><li><svg style="color:#FF2D20" aria-hidden="true"><use href="#i-laravel"/></svg>Laravel</li><li><svg style="color:#512BD4" aria-hidden="true"><use href="#i-dotnet"/></svg>C#</li><li><svg style="color:#02569B" aria-hidden="true"><use href="#i-flutter"/></svg>Flutter</li><li><svg style="color:#F05032" aria-hidden="true"><use href="#i-git"/></svg>Git</li><li><svg aria-hidden="true"><use href="#i-sql"/></svg>SQL</li><li><svg style="color:#4479A1" aria-hidden="true"><use href="#i-mysql"/></svg>MySQL</li></ul>
+            <p>BTS Services Informatiques aux Organisations, option Solutions Logicielles et Applications Métiers, obtenu en 2024.</p>
+            <ul class="points">
+              <li>Développement d'applications web et métiers en PHP avec Laravel, et en C#</li>
+              <li>Modélisation et exploitation de bases de données MySQL</li>
+              <li>Mise en place d'un serveur LAMP et versionnement du code avec Git</li>
+              <li>Découverte de la gestion d'un projet informatique</li>
+              <li>Deux stages en entreprise, au lycée Joachim du Bellay et chez Si-one</li>
+            </ul>
+            <ul class="tags plain logos"><li><svg style="color:#777BB4" aria-hidden="true"><use href="#i-php"/></svg>PHP</li><li><svg style="color:#FF2D20" aria-hidden="true"><use href="#i-laravel"/></svg>Laravel</li><li><svg style="color:#512BD4" aria-hidden="true"><use href="#i-dotnet"/></svg>C#</li><li><svg style="color:#4479A1" aria-hidden="true"><use href="#i-mysql"/></svg>MySQL</li><li><svg style="color:#F05032" aria-hidden="true"><use href="#i-git"/></svg>Git</li></ul>
             <a class="xp-link" href="https://campus-chevrollier.fr/sio/" target="_blank" rel="noopener">campus-chevrollier.fr ↗</a>
           </div></div>
         </li>
