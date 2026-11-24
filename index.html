@@ -487,6 +487,11 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
   .xp-detail > div { padding-left: 0; }
   main { gap: 72px; }
 }
+/* Theme switch: the new theme is revealed over the old one, which stays still underneath */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+#theme.spin svg { animation: themespin .6s cubic-bezier(.65, 0, .35, 1); }
+@keyframes themespin { from { transform: rotate(-90deg) scale(.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #theme.spin svg { animation: none; } }
 </style>
 </head>
 <body>
@@ -895,10 +900,25 @@ html, .sheet { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--
   // A click on the backdrop lands on the dialog element itself
   sheet.addEventListener("click", e => { if (e.target === sheet) sheet.close(); });
   try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
-  document.getElementById("theme").addEventListener("click", () => {
+  const themeButton = document.getElementById("theme");
+  const toggleTheme = () => {
     const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
     root.dataset.theme = dark ? "light" : "dark";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  };
+  themeButton.addEventListener("click", () => {
+    // Restart the icon's turn even on quick repeated clicks
+    themeButton.classList.remove("spin"); void themeButton.offsetWidth; themeButton.classList.add("spin");
+    if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return toggleTheme();
+    // The new theme spreads from the button in a circle large enough to reach the farthest corner
+    const box = themeButton.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(toggleTheme).ready.then(() => {
+      root.animate(
+        { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: "cubic-bezier(.65, 0, .35, 1)", pseudoElement: "::view-transition-new(root)" },
+      );
+    });
   });
 
   const copyBtn = document.getElementById("copy-mail");
